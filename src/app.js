@@ -17,7 +17,7 @@ app.get("/repositories", (request, response) => {
 
 app.post("/repositories", (request, response) => {
   const {title, url, techs} = request.body
-  const repo = { id: uuid(), title, url, techs, like: 0 }
+  const repo = { id: uuid(), title, url, techs, likes: 0 }
   repositories.push(repo);
 
   return response.json(repo)
@@ -33,9 +33,10 @@ app.put("/repositories/:id", (request, response) => {
   if (repositoriIdx < 0){
     return response.status(400).json({ error: "Repositori not found!" })
   }
-  const likes = repositories[repositoriIdx]
-
-  const repo = { id, title, url, techs, like: likes.like};
+  const like = repositories[repositoriIdx]
+  console.log(like)
+  console.log(like.likes)
+  const repo = { id, title, url, techs, likes: like.likes};
 
   repositories[repositoriIdx] = repo
 
@@ -65,9 +66,9 @@ app.post("/repositories/:id/like", (request, response) => {
   }
 
 
-  const { title, url, techs, like } = repositories[repositoriIdx];
+  const { title, url, techs, likes } = repositories[repositoriIdx];
 
-  const repo = { id, title, url, techs, like: like + 1};
+  const repo = { id, title, url, techs, likes: likes + 1};
 
   repositories[repositoriIdx] = repo
 
